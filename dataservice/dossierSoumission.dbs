@@ -6,6 +6,7 @@
     <property name="username">devedbmdb</property>
     <property name="password">devedbmdb</property>
   </config>
+  
   <config id="dossierSomissionDSL">
     <property name="driverClassName">org.postgresql.Driver</property>
     <property name="url">jdbc:postgresql://localhost:5432/dossierSomissionDS</property>
