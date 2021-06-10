@@ -1,38 +1,46 @@
-<data name="document" serviceNamespace="" serviceGroup="mg.gov.edbm.societe.documentDS" transports="http https">
+<data transports="http https" serviceGroup="mg.gov.edbm.societe.documentDS" serviceNamespace="" name="document">
   <description />
-  <resource path="listdocumentToUploadByLegalStatus" method="GET">
+  <config id="documentDS">
+    <property name="driverClassName">org.postgresql.Driver</property>
+    <property name="url">jdbc:postgresql://devedbmdb.cq07jvdma2am.af-south-1.rds.amazonaws.com:5432/document</property>
+    <property name="username">devedbmdb</property>
+    <property name="password">devedbmdb</property>
+  </config>
+
+  
+  <resource method="GET" path="listdocumentToUploadByLegalStatus">
     <description />
     <call-query href="documentToUploadByLegalStatus">
       <with-param name="idFormeJuridique" query-param="idFormeJuridique" />
     </call-query>
   </resource>
-  <resource path="listdocumentToUploadByAssociate" method="GET">
+  <resource method="GET" path="listdocumentToUploadByAssociate">
     <description />
     <call-query href="documentToUploadByAssociate" />
   </resource>
-  <resource path="listdocumentToUploadByLeader" method="GET">
+  <resource method="GET" path="listdocumentToUploadByLeader">
     <description />
     <call-query href="documentToUploadByLeader" />
   </resource>
-  <resource path="listdocumentToUploadByActivity" method="GET">
+  <resource method="GET" path="listdocumentToUploadByActivity">
     <description />
     <call-query href="documentToUploadByActivity" />
   </resource>
-  <resource path="listdocumentToUploadByWholesalerActivity" method="GET">
+  <resource method="GET" path="listdocumentToUploadByWholesalerActivity">
     <description />
     <call-query href="documentToUploadByWholesalerActivity" />
   </resource>
-  <resource path="listdocumentToUploadByTheHeadOffice" method="GET">
+  <resource method="GET" path="listdocumentToUploadByTheHeadOffice">
     <description>list of document o upload for the head office without user selection</description>
     <call-query href="documentToUploadByTheHeadOffice" />
   </resource>
-  <resource path="listdocumentToUploadByTheHeadOfficeWithBailleurId" method="GET">
+  <resource method="GET" path="listdocumentToUploadByTheHeadOfficeWithBailleurId">
     <description />
     <call-query href="documentToUploadByTheHeadOfficeWhithBailleurId">
       <with-param name="idTypeBailleur" query-param="idTypeBailleur" />
     </call-query>
   </resource>
-  <resource path="listdocumentToUploadByTheHeadOfficeWithContratId" method="GET">
+  <resource method="GET" path="listdocumentToUploadByTheHeadOfficeWithContratId">
     <description />
     <call-query href="documentToUploadByTheHeadOfficeWhithContratId">
       <with-param name="idTypeContrat" query-param="idTypeContrat" />
@@ -41,7 +49,7 @@
   <query id="documentToUploadByLegalStatus" useConfig="documentDS">
     <sql>SELECT "idFormeJuridique", "nomDocument", "iProcedure", "nbUploader", "nbDeposer", "paramUpload", "paramDeposer"
 	FROM public."documentFormeJuridique",public.document WHERE "idFormeJuridique"=:idFormeJuridique AND "iProcedure"=1 AND public."documentFormeJuridique"."idDocument"= public.document."idDocument" ;</sql>
-    <param type="IN" name="idFormeJuridique" sqlType="INTEGER" paramType="SCALAR" />
+    <param type="IN" name="idFormeJuridique" paramType="SCALAR" sqlType="INTEGER" />
     <result outputType="json">{"listeDocuments":{"listeDocument":[{"idFormeJuridique":"$idFormeJuridique","nomDocument":"$nomDocument","iProcedure":"$iProcedure", "nbUploader":"$nbUploader","nbDeposer":"$nbDeposer","paramUpload":"$paramUpload","paramDeposer":"$paramDeposer"}]}}</result>
   </query>
   <query id="documentToUploadByAssociate" useConfig="documentDS">
@@ -78,7 +86,7 @@
 	
 	
 </sql>
-    <param type="IN" name="idTypeBailleur" sqlType="INTEGER" paramType="SCALAR" />
+    <param type="IN" name="idTypeBailleur" paramType="SCALAR" sqlType="INTEGER" />
     <result outputType="json">{"listeDocuments":{"listeDocument":[{"nomDocument":"$nomDocument","nbUploader":"$nbUploader","nbDeposer":"$nbDeposer"}]}}</result>
   </query>
   <query id="documentToUploadByTheHeadOfficeWhithContratId" useConfig="documentDS">
@@ -87,7 +95,7 @@
 	
 	
 </sql>
-    <param type="IN" name="idTypeContrat" sqlType="INTEGER" paramType="SCALAR" />
+    <param type="IN" name="idTypeContrat" paramType="SCALAR" sqlType="INTEGER" />
     <result outputType="json">{"listeDocuments":{"listeDocument":[{"nomDocument":"$nomDocument","nbUploader":"$nbUploader","nbDeposer":"$nbDeposer"}]}}</result>
   </query>
   <query id="documentToUploadByMandataire" useConfig="documentDS">
@@ -95,21 +103,8 @@
 	FROM public."documentMandataire",public.document WHERE public.document."idDocument"=public."documentMandataire"."idDocument" ;</sql>
     <result outputType="json">{"listeDocuments":{"listeDocument":[{"nomDocument":"$nomDocument","nbUploader":"$nbUploader","nbDeposer":"$nbDeposer"}]}}</result>
   </query>
-  <resource path="listdocumentToUploadByMandataire" method="GET">
+  <resource method="GET" path="listdocumentToUploadByMandataire">
     <description />
     <call-query href="documentToUploadByMandataire" />
   </resource>
-  <config id="documentDS">
-    <property name="driverClassName">org.postgresql.Driver</property>
-    <property name="url">jdbc:postgresql://devedbmdb.cq07jvdma2am.af-south-1.rds.amazonaws.com:5432/document</property>
-    <property name="username">devedbmdb</property>
-    <property name="password">devedbmdb</property>
-  </config>
-  
-  <config id="documentDSL">
-    <property name="driverClassName">org.postgresql.Driver</property>
-    <property name="url">jdbc:postgresql://localhost:5432/document</property>
-    <property name="username">postgres</property>
-    <property name="password">postgres</property>
-  </config>
 </data>
